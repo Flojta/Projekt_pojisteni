@@ -42,8 +42,7 @@ class EvidencePojistencu:
             cursor.execute("INSERT INTO pojistenci (jmeno, prijmeni, vek, tel_cislo, email) VALUES (?, ?, ?, ?, ?)", (objekt.get_jmeno(), objekt.get_prijmeni(), objekt.get_vek(), objekt.get_tel_cislo(), objekt.get_email()))
             conn.commit()
             cursor.close()
-            conn.close()
-            return ("Váš profil byl vytvořen") 
+            conn.close() 
       
       @staticmethod
       def vlozeni_do_databaze_hesel(heslo: str):# vkládá heslo do databáze

@@ -76,7 +76,7 @@ while login == True:
         if Kontroly.databaze_email(osobni_udaje["email"]) == True: #zkontroluje, jestli se v databázi již nenachází stejný email
 
             nova_osoba = Rozhranistatic.zadani_hesla_dokonceni_registrace(osobni_udaje) # metoda pro zadání hesla přes double kontrolu a vytvoření objektu
-            print(f"Účet pro osobu {nova_osoba.get_jmeno} {nova_osoba.get_prijmeni} byl vytvořen")
+            print(f"Účet pro osobu {nova_osoba.get_jmeno()} {nova_osoba.get_prijmeni()} byl vytvořen")
             time.sleep(2)
             login = False
 
