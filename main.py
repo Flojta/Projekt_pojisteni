@@ -100,23 +100,24 @@ while menu == True:
     print(Rozhranistatic.hlavicka_s_uzivatelem(nova_osoba.kratky_popis()))    
     if admin == "ne": #----------------------------------------------------------------------------------------------menu uživatele
         print(Rozhranistatic.menu())
-        akcemenu = input("Vyberte možnost:")
+        akce_menu = input("Vyberte možnost:")
 
 
-        if akcemenu == "1": #Možnost přidání pojištění pro osobu
+        if akce_menu == "1": #Možnost přidání pojištění pro osobu
             Rozhranistatic.vycisti_obrazovku()
             print(Rozhranistatic.vyber_pojisteni_menu())
             vyber_pojisteni = input("Vyberte možnost:")
 
             if vyber_pojisteni in ["1", "2", "3"]:
-                print(EvidencePojistencu.pridej_druh_pojisteni(vyber_pojisteni, nova_osoba))
+                hodnoty_pojisteni = Rozhranistatic.vyber_druh_pojisteni(vyber_pojisteni, nova_osoba)
+                print(EvidencePojistencu.pridej_druh_pojisteni(hodnoty_pojisteni["id_pojisteni"], hodnoty_pojisteni["predmet_pojisteni"], hodnoty_pojisteni["hodnota_pojisteni"], nova_osoba ))
                 time.sleep(1)
                 Rozhranistatic.vycisti_obrazovku()
             else:
                 print("Špatné zadání")
                 Rozhranistatic.vycisti_obrazovku()
 
-        if akcemenu =="2": # Vypíše všechny pojištění přihlášené osoby
+        if akce_menu =="2": # Vypíše všechny pojištění přihlášené osoby
 
             Rozhranistatic.vycisti_obrazovku()
             print("Vaše pojištění:\n")
@@ -125,7 +126,7 @@ while menu == True:
             print(input("Zpět (Stisknutím ENTER)"))
             Rozhranistatic.vycisti_obrazovku()
 
-        elif akcemenu == "3": #Změna údajů osoby
+        elif akce_menu == "3": #Změna údajů osoby
 
 
             Rozhranistatic.vycisti_obrazovku()
@@ -141,13 +142,13 @@ while menu == True:
                 print("Špatné zadání...")
                 Rozhranistatic.vycisti_obrazovku()
             
-        elif akcemenu == "4": # Vypíše osobní údaje 
+        elif akce_menu == "4": # Vypíše osobní údaje 
             Rozhranistatic.vycisti_obrazovku()
             print(Rozhranistatic.vypis_osobni_udaje(nova_osoba))
             print(input("Zpět (Stisknutím ENTER)"))
             Rozhranistatic.vycisti_obrazovku()
 
-        elif akcemenu == "5":
+        elif akce_menu == "5":
             Rozhranistatic.ukonceni_programu()
         else:
             print("Špatné zadání, zkuste to znovu..")
@@ -156,9 +157,9 @@ while menu == True:
 
     else:
         print(Rozhranistatic.menu_admin())#-----------------------------------------------------------------menu admin
-        akcemenu = input("Vyberte možnost:")
+        akce_menu = input("Vyberte možnost:")
 
-        if akcemenu == "1": # vypíše všechny pojištěnce z databáze, co nejsou admin 
+        if akce_menu == "1": # vypíše všechny pojištěnce z databáze, co nejsou admin 
 
             Rozhranistatic.vycisti_obrazovku()
             print(EvidencePojistencu.vypis_vsech_pojistencu())
@@ -166,7 +167,7 @@ while menu == True:
             Rozhranistatic.vycisti_obrazovku()
             
 
-        if akcemenu =="2": # možnost úpravy osobních údajů u kterékoli osoby
+        if akce_menu =="2": # možnost úpravy osobních údajů u kterékoli osoby
 
             email_osoby = input("Zadejte email osoby, u které chcete upravit údaje: ")
             osoba_na_zmenu = Kontroly.databaze_email(email_osoby) #nejprve se zadá email osoby, kterou chceš změnit
@@ -193,7 +194,7 @@ while menu == True:
 
                     print("Špatné zadání...")
 
-        elif akcemenu == "3": #možnost přidání dalšího administrátora
+        elif akce_menu == "3": #možnost přidání dalšího administrátora
 
             print("Zadejte údaje dalšího administrátora:\n")
             udaje_admin = Rozhranistatic.zadej_udaje_registrace()
@@ -202,7 +203,7 @@ while menu == True:
             time.sleep(1)
             Rozhranistatic.vycisti_obrazovku()
 
-        elif akcemenu == "4": # konec programu
+        elif akce_menu == "4": # konec programu
 
             Rozhranistatic.vycisti_obrazovku()
             Rozhranistatic.ukonceni_programu()

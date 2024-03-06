@@ -57,7 +57,7 @@ class EvidencePojistencu:
       
       @staticmethod
       def hash_hesla(heslo: str): # metoda pro hash hesla přes sha256
-        
+        # ! hodit někam jinam 
         hash_objekt = hashlib.sha256()
         hash_objekt.update(heslo.encode('utf-8'))
         hash_hodnota = hash_objekt.hexdigest()
@@ -123,28 +123,13 @@ class EvidencePojistencu:
             return druhy_pojisteni
       
       @staticmethod
-      def pridej_druh_pojisteni(vyber_druhu, osoba):# metoda pro možnost přidání pojištění pro přihlášenou osobu 
-            # ! upravit
-            if vyber_druhu == "1":
-
-                  predmet_pojisteni = input("Zadejte SPZ vozu:")
-                  hodnota_pojisteni = input("Na kolik chcete vůz pojistit? hodnota:")
-
-            if vyber_druhu == "2":
-
-                  predmet_pojisteni = input("Zadejte majetek, který chcete pojistit: ")
-                  hodnota_pojisteni = input("Na kolik chcete majetek pojistit? hodnota:")
-
-            if vyber_druhu == "3":
-
-                  predmet_pojisteni = osoba.get_jmeno() + " " + osoba.get_prijmeni()
-                  hodnota_pojisteni = input("Na kolik se chcete pojistit? hodnota:")
+      def pridej_druh_pojisteni(id_pojisteni, predmet_pojisteni, hodnota_pojisteni, osoba):# metoda pro možnost přidání pojištění pro přihlášenou osobu 
 
             conn = sqlite3.connect("databaze_projekt.db")
             cursor = conn.cursor()
             cursor.execute("SELECT id FROM pojistenci WHERE email = ?", (osoba.get_email(),))
             id_osoby = cursor.fetchone()[0]
-            cursor.execute("INSERT INTO osoby_druhy_pojisteni (id_osoby, id_druhu_pojisteni, predmet_pojisteni, hodnota_pojisteni) VALUES (?, ?, ?, ?)", (id_osoby,int(vyber_druhu), predmet_pojisteni, hodnota_pojisteni))
+            cursor.execute("INSERT INTO osoby_druhy_pojisteni (id_osoby, id_druhu_pojisteni, predmet_pojisteni, hodnota_pojisteni) VALUES (?, ?, ?, ?)", (id_osoby,int(id_pojisteni), predmet_pojisteni, hodnota_pojisteni))
             conn.commit()
             conn.close()
             return ("Vaše pojištění bylo úspěšně přidáno")
@@ -160,11 +145,9 @@ class EvidencePojistencu:
 
             cursor.execute("SELECT druh_pojisteni, predmet_pojisteni, hodnota_pojisteni FROM osoby_druhy_pojisteni JOIN druhy_pojisteni ON id_druhu_pojisteni = druhy_pojisteni.id WHERE id_osoby = ?", (id_osoby,))
             pojisteni = cursor.fetchall()
-
-            for polozka in pojisteni:
-                print(polozka)
-
             conn.close()
+
+            return '\n'.join(str(pojisteni[polozka]) for polozka in range(len(pojisteni)))
 
       @staticmethod
       def zmena_udaju_v_datab_pojisteni(osoba):# změna údajů u zdravotního pojištění při změně údajů osoby

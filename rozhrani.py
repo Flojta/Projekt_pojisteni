@@ -26,7 +26,7 @@ Evidence pojištěných\n
     
     @staticmethod
     def zadani_hesla_dokonceni_registrace(udaje_osoby_dict): # metoda pro zadání a kontrolu hesla a zároveň vytvoření objektu Pojistenci
-        #! Rozdělit metodu
+        #! Rozdělit metodu (single respon)
         from kontroly import Kontroly
         heslo = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
         kontrola_hesla = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte heslo pro kontrolu:"))
@@ -130,38 +130,59 @@ Profil: {osoba}\n
     
     @staticmethod
     def zmena_udaje(vyber: str, nova_osoba):# metoda pro změnu údajů jak ve třídě, tak v databázi 
+        # ! single respon (upravit)
+        if vyber == "1":# změna jména
 
-          if vyber == "1":# změna jména
-                novy_udaj = input("Zadejte jméno:")
-                nova_osoba.jmeno = novy_udaj
-                sloupec = "jmeno"
-                EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
-                EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
+            novy_udaj = input("Zadejte jméno:")
+            nova_osoba.jmeno = novy_udaj
+            sloupec = "jmeno"
+            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
 
-          elif vyber == "2":# změna příjmení
-                novy_udaj = input("Zadejte příjmení:")
-                nova_osoba.prijmeni = novy_udaj
-                sloupec = "prijmeni"
-                EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
-                EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
+        elif vyber == "2":# změna příjmení
 
-          elif vyber == "3":# změna věku
-                novy_udaj = input("Zadejte věk:")
-                nova_osoba.vek = novy_udaj
-                sloupec = "vek"
-                EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            novy_udaj = input("Zadejte příjmení:")
+            nova_osoba.prijmeni = novy_udaj
+            sloupec = "prijmeni"
+            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
 
-          elif vyber == "4":# změna tel. čísla
-                novy_udaj = input("Zadejte telefonní číslo:")
-                nova_osoba.tel_cislo = novy_udaj
-                sloupec = "tel_cislo"
-                EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+        elif vyber == "3":# změna věku
 
-          elif vyber == "5":# změna hesla
-                novy_udaj = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte nové heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
-                EvidencePojistencu.zmena_hesla(nova_osoba.get_email(), novy_udaj)
+            novy_udaj = input("Zadejte věk:")
+            nova_osoba.vek = novy_udaj
+            sloupec = "vek"
+            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
 
-          return ("Váš udaj byl úspěšně změněn")
+        elif vyber == "4":# změna tel. čísla
+
+            novy_udaj = input("Zadejte telefonní číslo:")
+            nova_osoba.tel_cislo = novy_udaj
+            sloupec = "tel_cislo"
+            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+
+        elif vyber == "5":# změna hesla
+
+            novy_udaj = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte nové heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
+            EvidencePojistencu.zmena_hesla(nova_osoba.get_email(), novy_udaj)
+
+        return ("Váš udaj byl úspěšně změněn")
     
     @staticmethod
-    def vyber_druh_pojisteni()
+    def vyber_druh_pojisteni(vyber_druhu, osoba):
+        if vyber_druhu == "1":
+
+            predmet_pojisteni = input("Zadejte SPZ vozu:")
+            hodnota_pojisteni = input("Na kolik chcete vůz pojistit? hodnota:")
+
+        if vyber_druhu == "2":
+              
+            predmet_pojisteni = input("Zadejte majetek, který chcete pojistit: ")
+            hodnota_pojisteni = input("Na kolik chcete majetek pojistit? hodnota:")
+
+        if vyber_druhu == "3":
+              
+            predmet_pojisteni = osoba.get_jmeno() + " " + osoba.get_prijmeni()
+            hodnota_pojisteni = input("Na kolik se chcete pojistit? hodnota:")
+
+        return {"id_pojisteni":vyber_druhu, "predmet_pojisteni":predmet_pojisteni, "hodnota_pojisteni":hodnota_pojisteni}
