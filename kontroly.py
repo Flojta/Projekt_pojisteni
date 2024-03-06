@@ -7,7 +7,8 @@ import time
 
 class Kontroly:
 
-    
+
+         
 
     @staticmethod
     def databaze_email(email):

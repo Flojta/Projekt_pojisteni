@@ -54,9 +54,9 @@ while login == True:
         email = input("Zadejte přihlašovací email:")
         heslo = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
 
-        if EvidencePojistencu.kontrola_prihlaseni(email, heslo): #----------kontrola zadaných údajů v databázi
+        if EvidencePojistencu().kontrola_prihlaseni(email, heslo): #----------kontrola zadaných údajů v databázi
             print("Přihlášení proběhlo v pořádku.")
-            nova_osoba = EvidencePojistencu.vytvor_objekt_z_datab(email) # vytvoření objektu z databáze
+            nova_osoba = EvidencePojistencu().vytvor_objekt_z_datab(email) # vytvoření objektu z databáze
             time.sleep(2)
             login = False
         
@@ -76,7 +76,7 @@ while login == True:
         if Kontroly.databaze_email(osobni_udaje["email"]) == True: #zkontroluje, jestli se v databázi již nenachází stejný email
 
             nova_osoba = Rozhranistatic.zadani_hesla_dokonceni_registrace(osobni_udaje) # metoda pro zadání hesla přes double kontrolu a vytvoření objektu
-            print(f"Účet pro osobu {nova_osoba.get_jmeno()} {nova_osoba.get_prijmeni()} byl vytvořen")
+            print(f"Účet pro osobu {nova_osoba.kratky_popis()} byl vytvořen")
             time.sleep(2)
             login = False
 
@@ -94,7 +94,7 @@ while login == True:
         Rozhranistatic.vycisti_obrazovku()
 #-------------------------------------------------------------------------------------------------------------------------------------menu(2)
 Rozhranistatic.vycisti_obrazovku()
-admin = EvidencePojistencu.kontrola_admin(nova_osoba.get_email()) #kontrola, zda je přihlášená osoba admin
+admin = EvidencePojistencu().kontrola_admin(nova_osoba.get_email()) #kontrola, zda je přihlášená osoba admin
 while menu == True:
 
     print(Rozhranistatic.hlavicka_s_uzivatelem(nova_osoba.kratky_popis()))    
@@ -110,7 +110,7 @@ while menu == True:
 
             if vyber_pojisteni in ["1", "2", "3"]:
                 hodnoty_pojisteni = Rozhranistatic.vyber_druh_pojisteni(vyber_pojisteni, nova_osoba)
-                print(EvidencePojistencu.pridej_druh_pojisteni(hodnoty_pojisteni["id_pojisteni"], hodnoty_pojisteni["predmet_pojisteni"], hodnoty_pojisteni["hodnota_pojisteni"], nova_osoba ))
+                print(EvidencePojistencu().pridej_druh_pojisteni(hodnoty_pojisteni["id_pojisteni"], hodnoty_pojisteni["predmet_pojisteni"], hodnoty_pojisteni["hodnota_pojisteni"], nova_osoba ))
                 time.sleep(1)
                 Rozhranistatic.vycisti_obrazovku()
             else:
@@ -122,7 +122,7 @@ while menu == True:
             Rozhranistatic.vycisti_obrazovku()
             print("Vaše pojištění:\n")
             print("Druh pojištění - Předmět pojištění - Hodnota pojištění\n")
-            print(EvidencePojistencu.vypis_pojisteni(nova_osoba))
+            print(EvidencePojistencu().vypis_pojisteni(nova_osoba))
             print(input("Zpět (Stisknutím ENTER)"))
             Rozhranistatic.vycisti_obrazovku()
 
@@ -162,7 +162,7 @@ while menu == True:
         if akce_menu == "1": # vypíše všechny pojištěnce z databáze, co nejsou admin 
 
             Rozhranistatic.vycisti_obrazovku()
-            print(EvidencePojistencu.vypis_vsech_pojistencu())
+            print(EvidencePojistencu().vypis_vsech_pojistencu())
             print(input("Zpět (Stisknutím ENTER)"))
             Rozhranistatic.vycisti_obrazovku()
             
@@ -180,7 +180,7 @@ while menu == True:
 
             else:
 
-                osoba_na_zmenu = EvidencePojistencu.vytvor_objekt_z_datab(email_osoby)
+                osoba_na_zmenu = EvidencePojistencu().vytvor_objekt_z_datab(email_osoby)
                 print(Rozhranistatic.vyber_udaj_na_opravu(osoba_na_zmenu))
                 vyber_udaj = input("Vyberte možnost:")
 
@@ -199,7 +199,7 @@ while menu == True:
             print("Zadejte údaje dalšího administrátora:\n")
             udaje_admin = Rozhranistatic.zadej_udaje_registrace()
             novy_admin = Rozhranistatic.zadani_hesla_dokonceni_registrace(udaje_admin) 
-            print(EvidencePojistencu.pridej_admin(novy_admin))
+            print(EvidencePojistencu().pridej_admin(novy_admin))
             time.sleep(1)
             Rozhranistatic.vycisti_obrazovku()
 

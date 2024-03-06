@@ -34,8 +34,8 @@ Evidence pojištěných\n
 
         nova_osoba = Pojistenec(udaje_osoby_dict["jmeno"], udaje_osoby_dict["prijmeni"], udaje_osoby_dict["vek"], udaje_osoby_dict["tel_cislo"], udaje_osoby_dict["email"])
 
-        EvidencePojistencu.vlozeni_do_databaze(nova_osoba)
-        EvidencePojistencu.vlozeni_do_databaze_hesel(heslo)
+        EvidencePojistencu().vlozeni_do_databaze(nova_osoba)
+        EvidencePojistencu().vlozeni_do_databaze_hesel(heslo)
 
         return nova_osoba
     
@@ -79,7 +79,7 @@ Evidence pojištěných\n
     """
     @staticmethod
     def vyber_pojisteni_menu(): # výpis druhů pojištění 
-        seznam_pojisteni = EvidencePojistencu.vrat_druhy_pojisteni()
+        seznam_pojisteni = EvidencePojistencu().vrat_druhy_pojisteni()
         menu = "Které pojištění chcete přidat? \n"
         for index in range(len(seznam_pojisteni)):
                 menu += f"{index + 1}-{seznam_pojisteni[index]}\n"
@@ -134,37 +134,37 @@ Profil: {osoba}\n
         if vyber == "1":# změna jména
 
             novy_udaj = input("Zadejte jméno:")
-            nova_osoba.jmeno = novy_udaj
+            nova_osoba.set_jmeno(novy_udaj)
             sloupec = "jmeno"
-            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
-            EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
+            EvidencePojistencu().zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu().zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
 
         elif vyber == "2":# změna příjmení
 
             novy_udaj = input("Zadejte příjmení:")
-            nova_osoba.prijmeni = novy_udaj
+            nova_osoba.set_prijmeni(novy_udaj)
             sloupec = "prijmeni"
-            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
-            EvidencePojistencu.zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
+            EvidencePojistencu().zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu().zmena_udaju_v_datab_pojisteni(nova_osoba)#změna se provede zároveň i v tabulce u zdravotního pojištění
 
         elif vyber == "3":# změna věku
 
             novy_udaj = input("Zadejte věk:")
-            nova_osoba.vek = novy_udaj
+            nova_osoba.set_vek(novy_udaj)
             sloupec = "vek"
-            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu().zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
 
         elif vyber == "4":# změna tel. čísla
 
             novy_udaj = input("Zadejte telefonní číslo:")
-            nova_osoba.tel_cislo = novy_udaj
+            nova_osoba.set_tel_cislo(novy_udaj)
             sloupec = "tel_cislo"
-            EvidencePojistencu.zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
+            EvidencePojistencu().zmena_udaju_v_datab(nova_osoba.get_email(), sloupec, novy_udaj)
 
         elif vyber == "5":# změna hesla
 
-            novy_udaj = EvidencePojistencu.hash_hesla(getpass.getpass("Zadejte nové heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
-            EvidencePojistencu.zmena_hesla(nova_osoba.get_email(), novy_udaj)
+            novy_udaj = EvidencePojistencu().hash_hesla(getpass.getpass("Zadejte nové heslo(z důvodu bezpečnosti se heslo nezobrazuje):"))
+            EvidencePojistencu().zmena_hesla(nova_osoba.get_email(), novy_udaj)
 
         return ("Váš udaj byl úspěšně změněn")
     
